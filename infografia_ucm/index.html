@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UCM Nexus | Infografía Interactiva</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Vis.js for Network Graph -->
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+</head>
+
+<body>
+    <div class="overlay-ui">
+        <header>
+            <h1>UCM NEXUS</h1>
+            <p>Visualizador de Relaciones y Niveles de Poder</p>
+        </header>
+
+        <div class="panel-info" id="infoPanel">
+            <h2 id="charName">Selecciona un Nodo</h2>
+            <div class="img-container">
+                <img id="charImg" src="assets/placeholder.png" alt="Hero"
+                    onerror="this.src='https://placehold.co/150x150/1a1a2e/FFF?text=Select'">
+            </div>
+            <p id="charDesc">Haz click en un personaje para ver sus detalles, conexiones y nivel de amenaza.</p>
+            <div class="stats" id="statsContainer">
+                <!-- Stats injected here -->
+            </div>
+        </div>
+    </div>
+
+    <div id="mynetwork"></div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arte de Huella Digital | Generative Identity</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Digital Fingerprint</h1>
+            <p>Tu identidad digital única convertida en arte generativo.</p>
+        </header>
+        
+        <main>
+            <div class="canvas-wrapper">
+                <canvas id="artCanvas"></canvas>
+            </div>
+            
+            <div class="controls">
+                <div class="data-display">
+                    <span id="hashDisplay">Calculando hash...</span>
+                </div>
+                <button id="regenerateBtn" class="btn">Regenerar Semilla</button>
+                <button id="downloadBtn" class="btn secondary">Guardar Arte</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

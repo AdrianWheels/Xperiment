@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coliseo de Arena | Geometric Chaos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="ui-layer">
+        <header>
+            <h1>GEOMETRIC SAND ARENA</h1>
+            <p>Gladiadores geométricos en un mundo de píxeles físicos.</p>
+        </header>
+
+        <div class="controls">
+            <div class="control-group">
+                <label>Spawn Gladiator:</label>
+                <button class="btn active" data-class="crit" data-element="fire">🎯 Critical (Fire)</button>
+                <button class="btn" data-class="speed" data-element="water">⚡ Speed (Water)</button>
+                <button class="btn" data-class="spinner" data-element="acid">🌀 Spinner (Acid)</button>
+                <button class="btn" data-class="tank" data-element="stone">🛡️ Tank (Stone)</button>
+                <button class="btn" data-class="spike" data-element="plant">🌵 Spike (Plant)</button>
+                <button class="btn" data-class="ninja" data-element="fire">🥷 Ninja (Shadow)</button>
+            </div>
+
+            <div class="control-group">
+                <label>Manual Brush:</label>
+                <button class="btn-brush" data-brush="sand">Sand</button>
+                <button class="btn-brush" data-brush="water">Water</button>
+                <button class="btn-brush" data-brush="fire">Fire</button>
+                <button class="btn-brush" data-brush="eraser">Eraser</button>
+            </div>
+
+            <div class="stats">
+                <p>Particles: <span id="pCount">0</span></p>
+                <p>FPS: <span id="fpsCount">0</span></p>
+            </div>
+
+            <button id="clearBtn" class="danger-btn">CLEAR ARENA</button>
+        </div>
+    </div>
+
+    <canvas id="sandCanvas"></canvas>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
