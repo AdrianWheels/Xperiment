@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #1a1a2e;
+    font-family: 'Press Start 2P', cursive;
+    color: #fff;
+}
+
+canvas {
+    display: block;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+}
+
+.ui-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.score-board {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 15px;
+    border-radius: 10px;
+    border: 4px solid #fff;
+    width: fit-content;
+    text-shadow: 4px 4px 0px #000;
+}
+
+h1 {
+    font-size: 20px;
+    margin: 0 0 10px 0;
+    color: #ffd700;
+}
+
+.controls-info {
+    text-align: center;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    margin-bottom: 20px;
+    width: fit-content;
+    align-self: center;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+#gameOver {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #000;
+    border: 4px solid #f00;
+    padding: 40px;
+    text-align: center;
+    pointer-events: auto;
+    z-index: 100;
+    display: none;
+}
+
+#gameOver.hidden {
+    display: none;
+}
+
+#gameOver.visible {
+    display: block;
+    animation: shake 0.5s;
+}
+
+button {
+    background: #ffd700;
+    border: 4px solid #fff;
+    padding: 15px 30px;
+    font-family: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    text-transform: uppercase;
+}
+
+button:hover {
+    background: #ffaa00;
+    transform: scale(1.1);
+}
+
+@keyframes shake {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    25% {
+        transform: translate(-52%, -48%) rotate(-5deg);
+    }
+
+    50% {
+        transform: translate(-48%, -52%) rotate(5deg);
+    }
+
+    75% {
+        transform: translate(-52%, -52%) rotate(-5deg);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+}
