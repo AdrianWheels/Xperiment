@@ -1,7 +1,16 @@
-const canvas = document.getElementById('sandCanvas');
-const ctx = canvas.getContext('2d', { alpha: false });
-const pCountElem = document.getElementById('pCount');
-const fpsElem = document.getElementById('fpsCount');
+const isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
+
+let canvas = null;
+let ctx = null;
+let pCountElem = { textContent: 0 };
+let fpsElem = { textContent: 0 };
+
+if (isBrowser) {
+    canvas = document.getElementById('sandCanvas');
+    ctx = canvas.getContext('2d', { alpha: false });
+    pCountElem = document.getElementById('pCount');
+    fpsElem = document.getElementById('fpsCount');
+}
 
 // --- CONFIGURATION ---
 const CELL_SIZE = 3;
@@ -22,8 +31,10 @@ const COLORS = [
     '#000000', '#555555', '#edc9af', '#2255ff', '#ff4400', '#00ff00', '#22aa22'
 ];
 
-canvas.width = STAGE_W * CELL_SIZE;
-canvas.height = STAGE_H * CELL_SIZE;
+if (isBrowser && canvas) {
+    canvas.width = STAGE_W * CELL_SIZE;
+    canvas.height = STAGE_H * CELL_SIZE;
+}
 
 let grid = new Uint8Array(STAGE_W * STAGE_H).fill(TYPE.EMPTY);
 let entities = [];
@@ -52,7 +63,8 @@ const CLASSES = {
     'spinner': { name: 'Spinner', hp: 100, speed: 1.5, color: '#ffaaaa' },
     'tank': { name: 'Tank', hp: 200, speed: 0.5, color: '#555555' },
     'spike': { name: 'Spike', hp: 150, speed: 0.8, color: '#22aa22' },
-    'ninja': { name: 'Ninja', hp: 70, speed: 1.8, color: '#333333' }
+    'ninja': { name: 'Ninja', hp: 70, speed: 1.8, color: '#333333' },
+    'dummy': { name: 'Dummy', hp: 99999, speed: 0, color: '#aaaaaa' }
 };
 
 // --- ENTITY SYSTEM ---
@@ -325,6 +337,26 @@ class Entity {
     }
 }
 
+class TrainingDummy extends Entity {
+    constructor(x, y) {
+        super(x, y, 'dummy', TYPE.WALL);
+        this.damageTaken = 0;
+        this.hitCount = 0;
+        this.vx = 0;
+        this.vy = 0;
+    }
+
+    update() {
+        this.age++;
+        // Keeps the dummy static while still participating in collision checks.
+    }
+
+    takeDamage(amount) {
+        this.damageTaken += amount;
+        this.hitCount++;
+    }
+}
+
 // --- BASIC ENGINE & LOOP (Reuse previous helper functions) ---
 
 function setCell(x, y, type) { if (x >= 0 && x < STAGE_W && y >= 0 && y < STAGE_H) grid[y * STAGE_W + x] = type; }
@@ -355,6 +387,8 @@ function updateGame() {
 }
 
 function render() {
+    if (!isBrowser || !ctx) return;
+
     if (!window.offCanvas) {
         window.offCanvas = document.createElement('canvas');
         window.offCanvas.width = STAGE_W;
@@ -383,24 +417,66 @@ function render() {
 let spawnClass = 'crit';
 let spawnElement = TYPE.FIRE;
 
-document.querySelectorAll('.btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
-        e.target.classList.add('active');
-        spawnClass = e.target.dataset.class;
-        spawnElement = TYPE[e.target.dataset.element.toUpperCase()] || TYPE.FIRE;
+function simulateDpsAgainstDummy(className, durationSeconds = 10) {
+    initArena();
 
-        // Auto spawn center
-        entities.push(new Entity(STAGE_W / 2, STAGE_H / 2, spawnClass, spawnElement));
+    const centerX = STAGE_W / 2;
+    const centerY = STAGE_H / 2;
+    const attacker = new Entity(centerX - 5, centerY, className, TYPE.FIRE);
+    const dummy = new TrainingDummy(centerX + 2, centerY);
+
+    attacker.vx = 0;
+    attacker.vy = 0;
+
+    entities.push(attacker, dummy);
+
+    const frames = Math.floor(durationSeconds * 60);
+    for (let i = 0; i < frames; i++) {
+        updateGame();
+    }
+
+    return {
+        dps: dummy.damageTaken / durationSeconds,
+        totalDamage: dummy.damageTaken,
+        hits: dummy.hitCount,
+        framesSimulated: frames,
+        finalLevel: attacker.level
+    };
+}
+
+if (isBrowser) {
+    document.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            spawnClass = e.target.dataset.class;
+            spawnElement = TYPE[e.target.dataset.element.toUpperCase()] || TYPE.FIRE;
+
+            // Auto spawn center
+            entities.push(new Entity(STAGE_W / 2, STAGE_H / 2, spawnClass, spawnElement));
+        });
     });
-});
 
-document.getElementById('clearBtn').addEventListener('click', initArena);
+    document.getElementById('clearBtn').addEventListener('click', initArena);
 
-function loop() {
-    updateGame();
-    render();
-    pCountElem.textContent = entities.length;
+    function loop() {
+        updateGame();
+        render();
+        pCountElem.textContent = entities.length;
+        requestAnimationFrame(loop);
+    }
     requestAnimationFrame(loop);
 }
-requestAnimationFrame(loop);
+
+if (typeof module !== 'undefined') {
+    module.exports = {
+        Entity,
+        TrainingDummy,
+        simulateDpsAgainstDummy,
+        initArena,
+        updateGame,
+        CLASSES,
+        TYPE,
+        entities
+    };
+}
