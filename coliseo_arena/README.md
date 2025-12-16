@@ -11,3 +11,7 @@ Para ejecutar las pruebas desde la raíz del proyecto:
 ```bash
 node --test coliseo_arena/test/dps.test.js
 ```
+
+## Modo debug visual
+
+Consulta [docs/debug_system.md](docs/debug_system.md) para conocer todo lo que pinta la superposición de debug (dirección de movimiento, rangos de ataque, estados y enfriamientos) y cómo activarla en el cliente o vía `EventBus`.
