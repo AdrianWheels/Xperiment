@@ -2,50 +2,66 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coliseo de Arena | Geometric Chaos</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <!DOCTYPE html>
+    <html lang="es">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Coliseo de Arena | Geometric Chaos</title>
+        <link rel="stylesheet" href="css/main.css">
+    </head>
 
 <body>
-    <div class="ui-layer">
-        <header>
-            <h1>GEOMETRIC SAND ARENA</h1>
-            <p>Gladiadores geométricos en un mundo de píxeles físicos.</p>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-title">
+                <h1>GEOMETRIC SAND ARENA</h1>
+                <p>Gladiadores geométricos en un mundo de píxeles físicos.</p>
+            </div>
+            <div class="header-stats">
+                <div class="stat-item">Particles: <span id="pCount">0</span></div>
+                <div class="stat-item">FPS: <span id="fpsCount">0</span></div>
+                <div class="stat-item">Status: <span id="combatStatus">Idle</span></div>
+            </div>
         </header>
 
-        <div class="controls">
-            <div class="control-group">
-                <label>Spawn Gladiator:</label>
-                <button class="btn active" data-class="crit" data-element="fire">🎯 Critical (Fire)</button>
-                <button class="btn" data-class="speed" data-element="water">⚡ Speed (Water)</button>
-                <button class="btn" data-class="spinner" data-element="acid">🌀 Spinner (Acid)</button>
-                <button class="btn" data-class="tank" data-element="stone">🛡️ Tank (Stone)</button>
-                <button class="btn" data-class="spike" data-element="plant">🌵 Spike (Plant)</button>
-                <button class="btn" data-class="ninja" data-element="fire">🥷 Ninja (Shadow)</button>
-            </div>
+        <aside class="sidebar-controls">
+            <div class="control-panel">
+                <h3>Combat Controls</h3>
+                <button id="startCombatBtn" class="btn active-combat">⚔️ START COMBAT</button>
+                <button id="startCombat2v2Btn" class="btn active-combat">⚔️ START COMBAT 2v2</button>
 
-            <div class="control-group">
-                <label>Manual Brush:</label>
-                <button class="btn-brush" data-brush="sand">Sand</button>
-                <button class="btn-brush" data-brush="water">Water</button>
-                <button class="btn-brush" data-brush="fire">Fire</button>
-                <button class="btn-brush" data-brush="eraser">Eraser</button>
-            </div>
+                <div class="speed-control-group">
+                    <label>Speed</label>
+                    <div class="speed-buttons">
+                        <button class="btn-speed active" data-speed="1">1x</button>
+                        <button class="btn-speed" data-speed="2">2x</button>
+                        <button class="btn-speed" data-speed="5">5x</button>
+                        <button class="btn-speed" data-speed="10">10x</button>
+                    </div>
+                </div>
 
-            <div class="stats">
-                <p>Particles: <span id="pCount">0</span></p>
-                <p>FPS: <span id="fpsCount">0</span></p>
+                <button id="clearBtn" class="btn danger-btn">CLEAR ARENA</button>
             </div>
+        </aside>
 
-            <button id="clearBtn" class="danger-btn">CLEAR ARENA</button>
-        </div>
+        <main class="arena-container">
+            <div class="canvas-wrapper">
+                <canvas id="sandCanvas"></canvas>
+                <div id="dps-overlay" class="dps-overlay"></div>
+            </div>
+        </main>
+
+        <aside class="sidebar-gladiators">
+            <h3>Active Gladiators</h3>
+            <div id="gladiatorList" class="gladiator-list">
+                <!-- Gladiators will be injected here -->
+            </div>
+        </aside>
     </div>
 
-    <canvas id="sandCanvas"></canvas>
-
-    <script src="script.js"></script>
+    <script type="module" src="src/main.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,160 @@
+header h1 {
+    font-size: 1.8rem;
+    margin: 0 0 5px 0;
+    color: var(--primary);
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(240, 198, 0, 0.5);
+    letter-spacing: 1px;
+}
+
+header p {
+    font-size: 0.85rem;
+    color: #aaa;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 15px;
+}
+
+.control-group {
+    margin-bottom: 25px;
+}
+
+.control-group label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    color: #888;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+button {
+    display: block;
+    width: 100%;
+    margin-bottom: 8px;
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #333;
+    color: #ccc;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+    font-family: inherit;
+    font-size: 0.9rem;
+    border-radius: 4px;
+}
+
+button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--primary);
+    color: #fff;
+    transform: translateX(2px);
+}
+
+button.active {
+    background: var(--primary);
+    color: #000;
+    font-weight: bold;
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(240, 198, 0, 0.4);
+}
+
+/* Combat Button */
+.active-combat {
+    background: linear-gradient(45deg, #ff0055, #ff4400);
+    border: none;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.4);
+}
+
+.active-combat:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 25px rgba(255, 0, 85, 0.6);
+}
+
+/* Speed Controls */
+.speed-controls {
+    display: flex;
+    gap: 5px;
+}
+
+.btn-speed {
+    text-align: center;
+    padding: 5px;
+    font-size: 0.8rem;
+}
+
+.btn-brush {
+    display: inline-block;
+    width: 48%;
+    text-align: center;
+}
+
+.danger-btn {
+    background: rgba(255, 0, 0, 0.1);
+    border-color: #800;
+    text-align: center;
+    font-weight: bold;
+    color: #ff5555;
+    margin-top: 20px;
+}
+
+.danger-btn:hover {
+    background: #800;
+    border-color: #f00;
+    color: white;
+}
+
+.stats {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: auto;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.stats p {
+    margin: 5px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.stats span {
+    color: var(--primary);
+    font-family: monospace;
+}
+
+.dps-overlay {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    border-radius: 4px;
+    color: #fff;
+    font-family: monospace;
+    font-size: 0.8rem;
+    pointer-events: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 150px;
+}
+
+.dps-entry {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.dps-entry .name {
+    color: #aaa;
+}
+
+.dps-entry .val {
+    color: var(--primary);
+    font-weight: bold;
+}

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coliseo Arena - Battle Simulator</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #111;
+            color: #eee;
+            padding: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #444;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background: #222;
+            cursor: pointer;
+        }
+
+        tr:nth-child(even) {
+            background: #1a1a1a;
+        }
+
+        .imbalanced {
+            color: #ff5555;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #444;
+            color: #fff;
+            border: none;
+        }
+
+        button:hover {
+            background: #666;
+        }
+
+        #status {
+            margin-top: 10px;
+            color: #aaa;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 16px;
+            background: #333;
+            color: #fff;
+            border: 1px solid #555;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Battle Simulator</h1>
+    <div style="margin-bottom: 10px;">
+        <label for="speed">Simulation Physics Speed:</label>
+        <select id="speed">
+            <option value="1">1x (Normal)</option>
+            <option value="2">2x</option>
+            <option value="5">5x</option>
+            <option value="10">10x (Extreme)</option>
+        </select>
+        <button id="runBtn">Run Simulation</button>
+    </div>
+    <div id="status">Ready</div>
+    <table id="results">
+        <thead>
+            <tr>
+                <th>Red (Class)</th>
+                <th>Blue (Class)</th>
+                <th>Red Win %</th>
+                <th>Blue Win %</th>
+                <th>Draw %</th>
+                <th>Avg HP Left (Winner)</th>
+                <th>Avg Dmg (Red/Blue)</th>
+                <th>Avg Duration</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script type="module">
+        import { runAllBattles } from './src/test/BattleTest.js';
+
+        document.getElementById('runBtn').addEventListener('click', async () => {
+            const btn = document.getElementById('runBtn');
+            const status = document.getElementById('status');
+            const speed = parseFloat(document.getElementById('speed').value);
+
+            btn.disabled = true;
+            status.textContent = `Running simulations at ${speed}x speed...`;
+
+            // Allow UI to update
+            await new Promise(r => requestAnimationFrame(r));
+
+            try {
+                const results = await runAllBattles(speed, (progress) => {
+                    status.textContent = progress;
+                });
+                renderResults(results);
+                status.textContent = "Simulation Complete.";
+            } catch (e) {
+                console.error(e);
+                status.textContent = "Error: " + e.message;
+            }
+            btn.disabled = false;
+        });
+
+        function renderResults(results) {
+            const tbody = document.querySelector('#results tbody');
+            tbody.innerHTML = '';
+
+            results.forEach(r => {
+                const tr = document.createElement('tr');
+                const redWin = (r.redWins / r.total) * 100;
+                const blueWin = (r.blueWins / r.total) * 100;
+                const draw = (r.draws / r.total) * 100;
+
+                // Calculate weighted avg HP remaining
+                const avgHp = redWin > blueWin ? r.avgRedHp : r.avgBlueHp;
+
+                tr.innerHTML = `
+                    <td>${r.redClass}</td>
+                    <td>${r.blueClass}</td>
+                    <td class="${redWin > 70 ? 'imbalanced' : ''}">${redWin.toFixed(1)}%</td>
+                    <td class="${blueWin > 70 ? 'imbalanced' : ''}">${blueWin.toFixed(1)}%</td>
+                    <td>${draw.toFixed(1)}%</td>
+                    <td>${avgHp.toFixed(1)}%</td>
+                    <td>${Math.round(r.avgRedDmg)} / ${Math.round(r.avgBlueDmg)}</td>
+                    <td>${Math.round(r.avgDuration)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+    </script>
+</body>
+
+</html>

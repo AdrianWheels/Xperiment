@@ -1,0 +1,8 @@
+canvas {
+    display: block;
+    image-rendering: pixelated;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    /* Canvas size will be controlled by JS, but max size here */
+    max-width: 100%;
+    max-height: 100%;
+}

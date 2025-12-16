@@ -1,0 +1,167 @@
+/* Gladiator List UI */
+:root {
+    --team-red: #ff5470;
+    --team-red-soft: rgba(255, 84, 112, 0.15);
+    --team-blue: #51a2ff;
+    --team-blue-soft: rgba(81, 162, 255, 0.15);
+    --hp-color: #6aff7b;
+    --xp-color: #66e0ff;
+}
+
+.sidebar-gladiators h3 {
+    margin: 0 0 12px 0;
+    letter-spacing: 0.5px;
+}
+
+.gladiator-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    padding-bottom: 20px;
+}
+
+.gladiator-card {
+    --team: var(--team-blue);
+    --team-soft: var(--team-blue-soft);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 10px;
+    padding: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: 'Segoe UI', 'Roboto', monospace;
+    font-size: 12px;
+    color: #f8f8f8;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.24s ease, border-color 0.24s ease, box-shadow 0.24s ease;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03), 0 8px 22px rgba(0, 0, 0, 0.35), 0 0 0 2px var(--team-soft);
+}
+
+.gladiator-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 20%, var(--team-soft), transparent 40%);
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.gladiator-card:hover {
+    transform: translateX(6px) translateY(-2px);
+    border-color: var(--team);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 12px 28px rgba(0, 0, 0, 0.45), 0 0 12px var(--team);
+}
+
+.gladiator-card.dead {
+    opacity: 0.45;
+    filter: grayscale(100%);
+    box-shadow: none;
+}
+
+.gl-top {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 8px;
+}
+
+.gl-pip {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--team);
+    box-shadow: 0 0 0 4px var(--team-soft), 0 0 12px var(--team);
+    animation: pulse 1.2s ease-in-out infinite alternate;
+}
+
+.gl-title {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    letter-spacing: 0.5px;
+}
+
+.gl-name {
+    font-weight: 800;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+.gl-level {
+    font-weight: 600;
+    color: #ffd55e;
+    font-size: 11px;
+}
+
+.team-pill {
+    padding: 4px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--team);
+    color: #fff;
+    font-size: 11px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+    box-shadow: 0 0 10px var(--team-soft);
+}
+
+.gl-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    color: #b8bcc7;
+    font-size: 11px;
+}
+
+.stat-row .value {
+    color: #f4f4f4;
+    font-variant-numeric: tabular-nums;
+}
+
+.stat-bar {
+    position: relative;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 999px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.stat-bar .fill {
+    height: 100%;
+    width: 0;
+    transition: width 260ms cubic-bezier(0.24, 0.82, 0.35, 1), filter 260ms ease;
+    will-change: width;
+}
+
+.stat-bar.hp .fill {
+    background: linear-gradient(90deg, var(--team), #7dffb0);
+    box-shadow: 0 0 10px rgba(125, 255, 176, 0.55);
+}
+
+.stat-bar.xp .fill {
+    background: linear-gradient(90deg, var(--team), var(--xp-color));
+    box-shadow: 0 0 10px rgba(102, 224, 255, 0.5);
+}
+
+.dps-row {
+    margin-top: 2px;
+    color: #a6acb8;
+}
+
+.dead .stat-bar .fill {
+    filter: grayscale(100%) brightness(0.6);
+}
+
+@keyframes pulse {
+    from { transform: scale(0.95); opacity: 0.75; }
+    to { transform: scale(1.1); opacity: 1; }
+}
